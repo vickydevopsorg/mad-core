@@ -1,0 +1,15 @@
+# I am default central-comp config
+# Project Configuration
+project: "central-comp"  # Required Project identifier
+resource_index: "01"  # Resource index for tracking
+
+# Authentication Details
+service_principal_id: 
+  - "s456"  # service principal id
+aad_group_object_id: 
+  - "a567"  #
+
+# Metadata Tags
+tags:
+  Project Name: "Mad Framework Central Component"  # Descriptive project name
+  Type: "Mad Framework"  # Type of project

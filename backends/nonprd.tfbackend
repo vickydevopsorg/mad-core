@@ -1,0 +1,8 @@
+resource_group_name  = "rg-terraform-nonprd-weeu-01"
+storage_account_name = "stmadtfstatenonprdweeu01"
+container_name       = "mad-core"
+key                  = "nonprd"
+use_oidc             = true
+subscription_id      = "subid"
+tenant_id            = "tnid"
+client_id            = "clid"

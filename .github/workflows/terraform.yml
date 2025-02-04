@@ -1,0 +1,28 @@
+
+name: Terraform plan and apply
+
+on:
+  workflow_call:  # Enables it to be called by other repos
+    inputs:
+      environment:
+        description: 'Deployment environment (nonprd/preprd/prd)'
+        required: true
+      deployment_target:
+        description: 'Deployment target (central-comp)'
+        required: true
+        default: 'central-comp'
+      deploy_config:
+        description: 'Deployment config'
+        required: false
+      backends_config:
+        description: 'Backends config'
+        required: false
+jobs:
+  example-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Input
+        run: echo "Received input: ${{ inputs.some_input }}"
+      
+      - name: Use Secret
+        run: echo "Using secret: ${{ secrets.my_secret }}"
