@@ -2,7 +2,7 @@
 name: Terraform plan and apply
 
 on:
-  workflow_call:  # Enables it to be called by other repos
+  workflow_call: 
     inputs:
       environment:
         description: 'Deployment environment (nonprd/preprd/prd)'
@@ -22,7 +22,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print Input
-        run: echo "Received input: ${{ inputs.some_input }}"
-      
-      - name: Use Secret
-        run: echo "Using secret: ${{ secrets.my_secret }}"
+        shell: bash
+        run: |
+            echo "Environment: ${{ inputs.environment }}"
+            echo "Deployment Target: ${{ inputs.deployment_target }}"
+            echo "Deploy Config: ${{ inputs.deploy_config }}"
+            echo "Backends Config: ${{ inputs.backends_config }}"
