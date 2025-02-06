@@ -46,7 +46,7 @@ jobs:
         run: |
           echo "config.yml update"
           yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' ./${{ inputs.opco }}/${{ inputs.deployment_target }}/${{ inputs.environment }}-config.yaml ./${{ inputs.opco }}/${{ inputs.deployment_target }}/project-config.yaml > final_config.yaml
-          cat final_config.yaml > > mad-core/${{ inputs.deployment_target }}/config.yaml
+          cat final_config.yaml > mad-core/${{ inputs.deployment_target }}/config.yaml
 
           echo "backend update"
           echo  ./${{ inputs.opco }}/backends/${{ inputs.environment }}.tfbackend > ./mad-core/backends/${{ inputs.environment }}.tfbackend
