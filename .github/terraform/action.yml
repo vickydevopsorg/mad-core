@@ -15,13 +15,6 @@ runs:
   using: "composite"
   
   steps:
-     - uses: actions/checkout@v4
-     - name: backend & config update
-       shell: bash
-       run: |
-          echo ${{ inputs.backends_config }} > ./backends/${{ inputs.environment }}.tfbackend
-          echo ${{ inputs.deploy_config }} > ./${{ inputs.deployment_target }}/config.yaml
-        
      - name: Read properties from tf-file
        shell: bash
        working-directory: ${{ inputs.tf_path }}
