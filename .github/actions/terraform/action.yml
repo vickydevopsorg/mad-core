@@ -22,26 +22,16 @@ runs:
           while read -r line || [[ $line ]]; do
               echo $line | tr -d \" | tr -d ' ' >> $GITHUB_ENV
           done < '../backends/${{ inputs.environment }}.tfbackend'
-
-     - name: Printing all configs
-       shell: bash
-       working-directory: ${{ inputs.tf_path }}
-       run: |
-          echo "===== backend ==="
-          cat ../backends/${{ inputs.environment }}.tfbackend
-          echo "===== config ==="
-          cat config.yaml
-
-      
-    #  - name: Azure Login
-    #    uses: azure/login@v2
-    #    with:
-    #       client-id: ${{ env.client_id }}
-    #       tenant-id: ${{ env.tenant_id }}
-    #       subscription-id: ${{ env.subscription_id }}
-    #  - uses: hashicorp/setup-terraform@v3.0.0
-    #    with:
-    #       terraform_wrapper: false
+                
+     - name: Azure Login
+       uses: azure/login@v2
+       with:
+          client-id: ${{ env.client_id }}
+          tenant-id: ${{ env.tenant_id }}
+          subscription-id: ${{ env.subscription_id }}
+     - uses: hashicorp/setup-terraform@v3.0.0
+       with:
+          terraform_wrapper: false
 
     #  - name: Terraform Init
     #    working-directory: ${{ inputs.tf_path }}
@@ -50,13 +40,13 @@ runs:
     #    run: terraform init --backend-config='../backends/${{ inputs.environment }}.tfbackend'
 
     #  - name: Terraform Validate
-    #    working-directory: ${{ inputs.deployment_target }}
+    #    working-directory: ${{ inputs.tf_path }}
     #    shell: bash
     #    id: validate
     #    run: terraform validate -no-color
 
     #  - name: Terraform Plan
-    #    working-directory: ${{ inputs.deployment_target }}
+    #    working-directory: ${{ inputs.tf_path }}
     #    shell: bash
     #    id: plan
     #    run: |
@@ -77,11 +67,11 @@ runs:
     #    uses: actions/upload-artifact@v4
     #    with:
     #     name: tfplan
-    #     path: ./${{ inputs.deployment_target }}/tfplan
+    #     path: ./${{ inputs.tf_path }}/tfplan
 
     # # Create string output of Terraform Plan
     #  - name: Create String Output
-    #    working-directory: ${{ inputs.deployment_target }}
+    #    working-directory: ${{ inputs.tf_path }}
     #    shell: bash
     #    id: tf-plan-string
     #    run: |
