@@ -42,14 +42,16 @@ jobs:
           cat final_config.yaml > mad-core/${{ inputs.deployment_target }}/config.yaml
         
           cat ./${{ inputs.opco }}/backends/${{ inputs.environment }}.tfbackend > ./mad-core/backends/${{ inputs.environment }}.tfbackend
-      
+          
+          # copy core action to curent directory
+          cp -r ./mad-core/.github/actions/terraform ./.github/actions/terraform
       # - name: test
       #   run: |
       #     echo "test"
       #     pwd
       #     cat ./.github/actions/terraform/action.yml
       - name: Terraform plan
-        uses: ./mad-core/.github/actions/terraform
+        uses: ./.github/actions/terraform
         with:
           environment: ${{ inputs.environment }}
           tf_path: ${{ inputs.deployment_target }}
