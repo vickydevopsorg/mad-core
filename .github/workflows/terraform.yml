@@ -47,25 +47,14 @@ jobs:
           echo "config.yml update"
           yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' ./${{ inputs.opco }}/${{ inputs.deployment_target }}/${{ inputs.environment }}-config.yaml ./${{ inputs.opco }}/${{ inputs.deployment_target }}/project-config.yaml > final_config.yaml
           cat final_config.yaml > mad-core/${{ inputs.deployment_target }}/config.yaml
-          
-          echo "backend update"
-          echo "mad infra backend"
-          cat ./${{ inputs.opco }}/backends/${{ inputs.environment }}.tfbackend
-          echo "mad core backend"
-          cat mad-core/backends/${{ inputs.environment }}.tfbackend
-          echo  ./${{ inputs.opco }}/backends/${{ inputs.environment }}.tfbackend > ./mad-core/backends/${{ inputs.environment }}.tfbackend
-          
-          echo "backend print"
-          cat mad-core/backends/${{ inputs.environment }}.tfbackend
+        
+          cat ./${{ inputs.opco }}/backends/${{ inputs.environment }}.tfbackend > ./mad-core/backends/${{ inputs.environment }}.tfbackend
             
       - name: Temp- test
         run: |
             cat mad-core/central-comp/config.yaml
+            echo "-----------------"
             cat mad-core/backends/nonprd.tfbackend
-            cd mad-core
-            ls -l
-            cd backends
-            ls -l
  
 
       # - name: backend and config update
