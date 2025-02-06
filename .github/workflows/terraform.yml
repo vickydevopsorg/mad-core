@@ -18,7 +18,7 @@ on:
       mad_version:
         description: 'mad-core ref'
         type: string
-        required: true
+        required: false
         default: 'main'
 jobs:
   example-job:
