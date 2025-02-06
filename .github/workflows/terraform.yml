@@ -59,7 +59,7 @@ jobs:
       
       - name: Printing all configs
         shell: bash
-        working-directory: ${{ inputs.tf_path }}
+        working-directory: ${{ inputs.opco }}
         run: |
             echo "===== backend ==="
             cat ./backends/${{ inputs.environment }}.tfbackend
