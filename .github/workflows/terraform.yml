@@ -5,16 +5,20 @@ on:
     inputs:
       environment:
         description: 'Deployment environment (nonprd/preprd/prd)'
+        type: string
         required: true
       deployment_target:
         description: 'Deployment target (central-comp)'
+        type: string
         required: true
         default: 'central-comp'
       deploy_config:
         description: 'Deployment config'
+        type: string
         required: false
       backends_config:
         description: 'Backends config'
+        type: string
         required: false
 jobs:
   example-job:
