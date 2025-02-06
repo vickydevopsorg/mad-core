@@ -43,7 +43,11 @@ jobs:
         
           cat ./${{ inputs.opco }}/backends/${{ inputs.environment }}.tfbackend > ./mad-core/backends/${{ inputs.environment }}.tfbackend
       
-      - uses: actions/checkout@v4
+      # - name: test
+      #   run: |
+      #     echo "test"
+      #     pwd
+      #     cat ./.github/actions/terraform/action.yml
       - name: Terraform plan
         uses: ./.github/actions/terraform
         with:
