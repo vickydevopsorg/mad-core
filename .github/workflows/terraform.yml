@@ -25,14 +25,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Print Input
-        shell: bash
-        run: |
-            pwd
-            ls -l
-            echo "reached mad-core"
-            echo "Environment: ${{ inputs.environment }}"
-            echo "Deployment Target: ${{ inputs.deployment_target }}"
 
       - uses: actions/checkout@v4
         name: mad-core checkout
@@ -46,21 +38,21 @@ jobs:
           ls -l
           cd mad-core
           ls -l
-      # - name: merge config
-      #   id: config
-      #   uses: ./.github/actions/merge-config
-      #   with:
-      #     source: ./${{ inputs.opco }}/${{ inputs.deployment_target }}/${{ inputs.environment }}-config.yaml
-      #     target: ./${{ inputs.opco }}/${{ inputs.deployment_target }}/project-config.yaml
+      - name: merge config
+        id: config
+        uses: ./.github/actions/merge-config
+        with:
+          source: ./${{ inputs.opco }}/${{ inputs.deployment_target }}/${{ inputs.environment }}-config.yaml
+          target: ./${{ inputs.opco }}/${{ inputs.deployment_target }}/project-config.yaml
 
-      # - name: backend and config update
-      #   shell: bash
-      #   run: |
-      #      echo "Updating backend"
-      #      echo  ${{ inputs.opco }}/backends/${{ inputs.environment }}.tfbackend > mad-core/backends/${{ inputs.environment }}.tfbackend
+      - name: backend and config update
+        shell: bash
+        run: |
+           echo "Updating backend"
+           echo  ./${{ inputs.opco }}/backends/${{ inputs.environment }}.tfbackend > ./mad-core/backends/${{ inputs.environment }}.tfbackend
 
-      #      echo "Updating config"
-      #      cat ${{ steps.config.outputs.config_path }} > mad-core/${{ inputs.deployment_target }}/config.yaml
+           echo "Updating config"
+           cat ${{ steps.config.outputs.config_path }} > mad-core/${{ inputs.deployment_target }}/config.yaml
     
       # - name: Terraform Plan
       #   uses: ./.github/actions/terraform
