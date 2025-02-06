@@ -28,7 +28,7 @@ runs:
        working-directory: ${{ inputs.tf_path }}
        run: |
           echo "===== backend ==="
-          cat ./backends/${{ inputs.environment }}.tfbackend
+          cat ../backends/${{ inputs.environment }}.tfbackend
           echo "===== config ==="
           cat config.yaml
 
@@ -44,10 +44,10 @@ runs:
     #       terraform_wrapper: false
 
     #  - name: Terraform Init
-    #    working-directory: ${{ inputs.deployment_target }}
+    #    working-directory: ${{ inputs.tf_path }}
     #    shell: bash
     #    id: init
-    #    run: terraform init --backend-config='.././backends/${{ inputs.environment }}.tfbackend'
+    #    run: terraform init --backend-config='../backends/${{ inputs.environment }}.tfbackend'
 
     #  - name: Terraform Validate
     #    working-directory: ${{ inputs.deployment_target }}

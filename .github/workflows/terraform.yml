@@ -30,7 +30,7 @@ jobs:
         id: mad-core
         with:
           repository: vickydevopsorg/mad-core
-  #        ref: ${{ inputs.mad_version }}
+          ref: ${{ inputs.mad_version }}
           path: mad-core
 
       - name: merge-config
