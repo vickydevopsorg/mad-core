@@ -33,13 +33,25 @@ jobs:
           ref: ${{ inputs.mad_version }}
           path: mad-core
 
-      - name: merge config
-        id: config
-        uses: ./.github/actions/merge-config
-        with:
-          source: ./${{ inputs.opco }}/${{ inputs.deployment_target }}/${{ inputs.environment }}-config.yaml
-          target: ./${{ inputs.opco }}/${{ inputs.deployment_target }}/project-config.yaml
+      # - name: merge config
+      #   id: config
+      #   uses: ./.github/actions/merge-config
+      #   with:
+      #     source: ./${{ inputs.opco }}/${{ inputs.deployment_target }}/${{ inputs.environment }}-config.yaml
+      #     target: ./${{ inputs.opco }}/${{ inputs.deployment_target }}/project-config.yaml
 
+      - name: merge-config
+        id: config
+        shell: bash
+        run: |
+          echo "config.yml update"
+          yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' ./${{ inputs.opco }}/${{ inputs.deployment_target }}/${{ inputs.environment }}-config.yaml ./${{ inputs.opco }}/${{ inputs.deployment_target }}/project-config.yaml > final_config.yaml
+          cat final_config.yaml > > mad-core/${{ inputs.deployment_target }}/config.yaml
+
+          echo "backend update"
+          echo  ./${{ inputs.opco }}/backends/${{ inputs.environment }}.tfbackend > ./mad-core/backends/${{ inputs.environment }}.tfbackend
+          
+            
       - name: Temp- test
         run: |
             ls -l
