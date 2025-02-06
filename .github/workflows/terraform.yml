@@ -41,25 +41,29 @@ jobs:
           repository: vickydevopsorg/mad-core
           ref: ${{ inputs.mad_version }}
           path: mad-core
-      
-      - name: merge config
-        id: config
-        uses: ./.github/actions/merge-config
-        with:
-          source: ./${{ inputs.opco }}/${{ inputs.deployment_target }}/${{ inputs.environment }}-config.yaml
-          target: ./${{ inputs.opco }}/${{ inputs.deployment_target }}/project-config.yaml
-
-      - name: backend and config update
-        shell: bash
+      - name: Temp- test
         run: |
-           echo "Updating backend"
-           echo  ${{ inputs.opco }}/backends/${{ inputs.environment }}.tfbackend > mad-core/backends/${{ inputs.environment }}.tfbackend
+          ls -l
+          cd mad-core
+          ls -l
+      # - name: merge config
+      #   id: config
+      #   uses: ./.github/actions/merge-config
+      #   with:
+      #     source: ./${{ inputs.opco }}/${{ inputs.deployment_target }}/${{ inputs.environment }}-config.yaml
+      #     target: ./${{ inputs.opco }}/${{ inputs.deployment_target }}/project-config.yaml
 
-           echo "Updating config"
-           cat ${{ steps.config.outputs.config_path }} > mad-core/${{ inputs.deployment_target }}/config.yaml
+      # - name: backend and config update
+      #   shell: bash
+      #   run: |
+      #      echo "Updating backend"
+      #      echo  ${{ inputs.opco }}/backends/${{ inputs.environment }}.tfbackend > mad-core/backends/${{ inputs.environment }}.tfbackend
+
+      #      echo "Updating config"
+      #      cat ${{ steps.config.outputs.config_path }} > mad-core/${{ inputs.deployment_target }}/config.yaml
     
-      - name: Terraform Plan
-        uses: ./.github/actions/terraform
-        with:
-          environment: ${{ inputs.environment }}
-          tf_path: mad-core/${{ inputs.deployment_target }}
+      # - name: Terraform Plan
+      #   uses: ./.github/actions/terraform
+      #   with:
+      #     environment: ${{ inputs.environment }}
+      #     tf_path: mad-core/${{ inputs.deployment_target }}
