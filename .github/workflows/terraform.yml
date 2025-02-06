@@ -1,4 +1,3 @@
-
 name: Terraform plan and apply
 
 on:
@@ -24,6 +23,7 @@ jobs:
       - name: Print Input
         shell: bash
         run: |
+            echo "reached mad-core"
             echo "Environment: ${{ inputs.environment }}"
             echo "Deployment Target: ${{ inputs.deployment_target }}"
             echo "Deploy Config: ${{ inputs.deploy_config }}"
