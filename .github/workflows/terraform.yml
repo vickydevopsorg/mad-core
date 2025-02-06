@@ -54,8 +54,9 @@ jobs:
             
       - name: Temp- test
         run: |
-            ls -l
             cd mad-core
+            cat backends/nonprd.tfbackend
+            cat central-comp/config.yaml
             ls -l
 
       # - name: backend and config update
