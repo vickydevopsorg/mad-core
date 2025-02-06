@@ -54,7 +54,7 @@ jobs:
         uses: ./.github/actions/terraform
         with:
           environment: ${{ inputs.environment }}
-          tf_path: ${{ inputs.deployment_target }}
+          tf_path: ./mad-core/${{ inputs.deployment_target }}
 
       # - name: Read properties from tf-file
       #   shell: bash
