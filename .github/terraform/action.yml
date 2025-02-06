@@ -4,13 +4,11 @@ inputs:
     environment:
       description: Deployment environment (nonprd/preprd/prd)
       required: true
+      type: string
       default: nonprd
-    deployment_target:
-      required: true
-      default: central-comp
-    deploy_config:
-      required: false
-    backends_config:
+    tf_path:
+      description: Path to the Terraform configuration
+      type: string
       required: false
 
 runs:
@@ -18,7 +16,6 @@ runs:
   
   steps:
      - uses: actions/checkout@v4
-     
      - name: backend & config update
        shell: bash
        run: |
@@ -27,6 +24,7 @@ runs:
         
      - name: Read properties from tf-file
        shell: bash
+       working-directory: ${{ inputs.tf_path }}
        run: |
           while read -r line || [[ $line ]]; do
               echo $line | tr -d \" | tr -d ' ' >> $GITHUB_ENV
@@ -34,11 +32,12 @@ runs:
 
      - name: Printing all configs
        shell: bash
+       working-directory: ${{ inputs.tf_path }}
        run: |
           echo "===== backend ==="
           cat ./backends/${{ inputs.environment }}.tfbackend
           echo "===== config ==="
-          cat ./${{ inputs.deployment_target }}/config.yaml
+          cat config.yaml
 
       
     #  - name: Azure Login

@@ -11,15 +11,15 @@ on:
         description: 'Deployment target (central-comp)'
         type: string
         required: true
-        default: 'central-comp'
-      deploy_config:
-        description: 'Deployment config'
+      opco:
+        description: 'opco directory'
         type: string
-        required: false
-      backends_config:
-        description: 'Backends config'
+        required: true
+      mad_version:
+        description: 'mad-core ref'
         type: string
-        required: false
+        required: true
+        default: 'main'
 jobs:
   example-job:
     runs-on: ubuntu-latest
@@ -33,5 +33,33 @@ jobs:
             echo "reached mad-core"
             echo "Environment: ${{ inputs.environment }}"
             echo "Deployment Target: ${{ inputs.deployment_target }}"
-            echo "Deploy Config: ${{ inputs.deploy_config }}"
-            echo "Backends Config: ${{ inputs.backends_config }}"
+
+      - uses: actions/checkout@v4
+        name: mad-core checkout
+        id: mad-core
+        with:
+          repository: vickydevopsorg/mad-core
+          ref: ${{ inputs.mad_version }}
+          path: mad-core
+      
+      - name: merge config
+        id: config
+        uses: ./.github/actions/merge-config
+        with:
+          source: ./${{ inputs.opco }}/${{ inputs.deployment_target }}/${{ inputs.environment }}-config.yaml
+          target: ./${{ inputs.opco }}/${{ inputs.deployment_target }}/project-config.yaml
+
+      - name: backend and config update
+        shell: bash
+        run: |
+           echo "Updating backend"
+           echo  ${{ inputs.opco }}/backends/${{ inputs.environment }}.tfbackend > mad-core/backends/${{ inputs.environment }}.tfbackend
+
+           echo "Updating config"
+           cat ${{ steps.config.outputs.config_path }} > mad-core/${{ inputs.deployment_target }}/config.yaml
+    
+      - name: Terraform Plan
+        uses: ./.github/actions/terraform
+        with:
+          environment: ${{ inputs.environment }}
+          tf_path: mad-core/${{ inputs.deployment_target }}

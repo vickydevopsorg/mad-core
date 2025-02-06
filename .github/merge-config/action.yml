@@ -1,0 +1,26 @@
+name: Merge Config
+description: merge configs
+inputs:
+    source:
+      description: source file to compare
+      required: true
+    target:
+      description: target file to compare
+      required: true
+    environment:
+      description: Deployment environment (nonprd/preprd/prd)
+      required: true
+outputs:
+  config_path:
+    description: "The path to the merged config"
+    value:  ${{ steps.config.outputs.config_path }}
+runs:
+  using: "composite"
+  steps:
+     - uses: actions/checkout@v4
+     - name: Merge config
+       id: config
+       shell: bash
+       run: |
+         yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' ${{ inputs.source }} ${{ inputs.target }} > final_config.yaml
+         echo "config_path=final_config.yaml" >> $GITHUB_OUTPUT
