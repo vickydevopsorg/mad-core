@@ -21,14 +21,14 @@ runs:
        run: |
           while read -r line || [[ $line ]]; do
               echo $line | tr -d \" | tr -d ' ' >> $GITHUB_ENV
-          done < './backends/${{ inputs.environment }}.tfbackend'
+          done < '../backends/${{ inputs.environment }}.tfbackend'
 
      - name: Printing all configs
        shell: bash
        working-directory: ${{ inputs.tf_path }}
        run: |
           echo "===== backend ==="
-          cat ./backends/${{ inputs.environment }}.tfbackend
+          cat ../backends/${{ inputs.environment }}.tfbackend
           echo "===== config ==="
           cat config.yaml
 
