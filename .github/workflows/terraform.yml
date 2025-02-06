@@ -49,7 +49,7 @@ jobs:
       #     pwd
       #     cat ./.github/actions/terraform/action.yml
       - name: Terraform plan
-        uses: ./.github/actions/terraform
+        uses: ./mad-core/.github/actions/terraform
         with:
           environment: ${{ inputs.environment }}
           tf_path: ${{ inputs.deployment_target }}
